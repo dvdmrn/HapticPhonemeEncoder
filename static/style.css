@@ -1,0 +1,65 @@
+body{
+	background-color: #e8e8e8;
+	margin:0px;
+}
+
+#title{
+	font-size:2em;
+	text-align: center;
+}
+
+#console{
+	display: block;
+	background-color: #223;
+	color: #eee;
+	padding: 10px;
+	height: 33vh;
+	overflow-y: scroll;
+	scroll-behavior: bottom;
+}
+
+.button{
+	display: block;
+	background-color:#eee;
+	border:solid 1px #449;
+	vertical-align: True;
+	padding: 10px;
+	text-align: center;
+	margin:10px;
+	box-shadow: inset 0 -0.15rem 0 rgba(0, 0, 0, 0.2);
+	font-weight: bold;
+}
+
+.rec{
+	background-color: #e8a;
+	animation-name: recPulse;
+	animation-duration: 4s;
+	animation-iteration-count: infinite;
+
+}
+
+.tab{
+	margin-left: 40px;
+}
+
+.orthography{
+	font-style: italic;
+	color:#ff7efd;
+}
+@keyframes recPulse {
+	0% {
+	background-color: #e8a;
+	}
+	50% {
+	background-color: #f06;
+	}
+	100% {
+	background-color: #e8a;
+	}
+}
+
+#send:active{
+	background-color: #75f7cc;
+}
+
+
