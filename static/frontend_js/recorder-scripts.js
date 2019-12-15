@@ -14,10 +14,12 @@ var audioContext = new AudioContext;
 // functions ========================================
 	// converts blob to base64
 function blobToBase64(blob, cb) {
+	console.log("blob: ",blob)
 		var reader = new FileReader();
 		reader.onload = function() {
 			var dataUrl = reader.result;
 			var base64 = dataUrl.split(',')[1];
+			console.log("b64: ",base64)
 		cb(base64);
 	  };
 	  reader.readAsDataURL(blob);
@@ -69,7 +71,7 @@ function stopRecording() {
 
 function pushToBackend(blob) {
 	console.log("pushing blob: ",blob)
-    var url = URL.createObjectURL(blob);
+    // var url = URL.createObjectURL(blob);
 
 	blobToBase64(blob, function(base64){ // encode
 	  var update = {'blob': base64};
