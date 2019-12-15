@@ -44,6 +44,7 @@ io.on('connection', (socket) => {
       } else {
         console.log("successfuly saved wav file to server");
         STT.main(tmpFilePath, (msg) => {
+          console.log("successfuly transcribed with: ",msg);
           io.emit("updateConsole", msg);
           phonemicTranscription = getPhonemicTranscription(msg);
           io.emit("loadPhonemes", phonemicTranscription)

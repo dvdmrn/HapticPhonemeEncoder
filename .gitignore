@@ -3,3 +3,5 @@ transcription-*.json
 npm-debug.log
 .DS_Store
 /*.env
+credentials.json
+
