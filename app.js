@@ -82,7 +82,6 @@ app.use(express.static("static"))
 
 app.get("/transcription/:orthography", (req,res) => {
 	let wordOrtho = req.params.orthography
-	console.log("transcribing:",req.params.orthography,"->", words[wordOrtho])
 	res.send(words[wordOrtho])
 	// console.log("Here be the transcription: ", cmu.words.wordOrtho)
 })

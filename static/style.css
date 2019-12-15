@@ -38,14 +38,6 @@ body{
 
 }
 
-.tab{
-	margin-left: 40px;
-}
-
-.orthography{
-	font-style: italic;
-	color:#ff7efd;
-}
 @keyframes recPulse {
 	0% {
 	background-color: #e8a;
@@ -58,8 +50,39 @@ body{
 	}
 }
 
+.sending{
+	background-color: #aea;
+	animation-name: sendingPulse;
+	animation-duration: 4s;
+	animation-iteration-count: infinite;
+
+}
+@keyframes sendingPulse {
+	0% {
+	background-color: #ccff8f;
+	}
+	50% {
+	background-color: #00ffdb;;
+	}
+	100% {
+	background-color: #ccff8f;
+	}
+}
+
+.tab{
+	margin-left: 40px;
+}
+
+.orthography{
+	font-style: italic;
+	color:#ff7efd;
+}
+
 #send:active{
 	background-color: #75f7cc;
 }
 
+.disabled{
+	color: #888;
+}
 

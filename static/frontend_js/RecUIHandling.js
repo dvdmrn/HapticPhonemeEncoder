@@ -61,6 +61,7 @@ $(document).ready( () =>{
 			// set to not recording
 			recording = !recording
 			$("#recordButton")[0].classList.toggle("rec")
+			$("#send")[0].classList.toggle("disabled")
 			updateConsole("recording stopped! Processing speech...")
 			stopRecording(); // in recorder-scripts.js
 		}
@@ -69,21 +70,20 @@ $(document).ready( () =>{
 			console.log("toggling rec button",$("#recordButton")[0].classList)
 			recording = !recording
 			$("#recordButton")[0].classList.toggle("rec")
+			$("#send")[0].classList.toggle("disabled")
 			updateConsole("now recording...")
 			startRecording(); // in recorder-scripts.js
 
 		}
 
 	})
-	$("#send").click(()=>{
-		updateConsole("sending haptic phonemes...");
-		let phrase = new Phrase("cat duck","");
-		let phraseArr = phrase.orthography.split(" ")
+	// $("#send").click(()=>{
+	// 	updateConsole("sending haptic phonemes...");
 				
-		AntiAjaxAjaxClub(0,phraseArr.length-1, phrase, phraseArr)
+	// 	AntiAjaxAjaxClub(0,phraseArr.length-1, phrase, phraseArr)
 
 
-	})
+	// })
 })
 
 

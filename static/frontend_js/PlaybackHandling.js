@@ -1,5 +1,5 @@
-var timeBetweenPhonemes = 500 // in ms
-var timeBetweenWords = 1000 // in ms
+var timeBetweenPhonemes = 100 // in ms
+var timeBetweenWords = 2000 // in ms
 let phonemeInventory = ["AA","AY","D", "F", "K","N", "R","UW", "AH","B", "EH","G", "L","OW","S","V", "AW","DH","EY","IY","M","P", "T","Z"]
 
 // let phonemeInventory = ["AA","AE","AH","AO","AW","AX","AXR","AY","EH","ER","EY","IH","IX","IY","OW","OY","UH","UW","UX","B","CH","D","DH","DX","EL","EM","EN","F","G","HH","JH","K","L","M","N","NG","P","Q","R","S","SH","T","TH","V","W","WH","Y","Z","ZH"]
@@ -36,49 +36,58 @@ var sounds = 	{
 var cleanPhonemes = (phrase) => {
 	let cleanedPhrase = [] // multidimensional array [["M","Y"], ["H","E","L","L"]]
 	for (var j = 0; j < phrase.length; j++) {
-		let word = phrase[j].split(" ");
-		let cleanedWord = []
-		for (i=0;i<word.length;i++){
-			console.log("word pre-replace: ")
-			cleanPhoneme = word[i].replace(/\d+/g, '')
+		if (phrase[j]){
+			let word = phrase[j].split(" ");
+			let cleanedWord = []
+			for (i=0;i<word.length;i++){
+				cleanPhoneme = word[i].replace(/\d+/g, '')
 
-			// check if we can represent that phoneme in our system
-			if(phonemeInventory.indexOf(cleanPhoneme) !== -1) {
-	  			cleanedWord.push(cleanPhoneme)
+				// check if we can represent that phoneme in our system
+				if(phonemeInventory.indexOf(cleanPhoneme) !== -1) {
+		  			cleanedWord.push(cleanPhoneme)
+				}
+				else{
+					greyBois.add(cleanPhoneme)
+				}
 			}
-			else{
-				greyBois.add(cleanPhoneme)
-			}
-		}
-		cleanedPhrase.push(cleanedWord)
+			cleanedPhrase.push(cleanedWord)}
 	}
-	console.log("the cleaned up phonemes: ",cleanedPhrase)
 	if(greyBois.size >= 1){
 		greyBoisArr = []
 		for(let e of greyBois){greyBoisArr.push("/"+ArpabetToIpaTable[e]+"/")}
-		console.log("grey bois: ",greyBoisArr.toString())
-		console.log("grey bois: ",greyBois)
-		updateConsole("WARNING: the following phonemes will not be rendered in our encoding system: "+"{"+greyBoisArr.toString()}"}")
+
+		updateConsole("WARNING: the following phonemes will not be rendered in our encoding system: "+greyBoisArr.toString())
 	}
 	greyBois = new Set([]);
 	return cleanedPhrase
 }
 
-function playlist(phrase) {
-	for (let k=0;k<phrase.length;k++){
-		playbackTime = ((k-1)<0) ? 0 : getPlaybackTime(phrase[k-1])
-		console.log("timeout",i,": ",playbackTime+(timeBetweenWords*k)) 
-		setTimeout(()=>{playWord(phrase[k])},playbackTime+(timeBetweenWords*k))
+function playlist(phrase, idx) {
+	console.log("playlist invoked @ ",idx, "W phrase: ",phrase)
+	if(idx>=phrase.length){
+		$("#send")[0].classList.toggle("disabled")
+		updateConsole("message sent");
+		return;
 	}
+	let next = function() {playlist(phrase, idx+1)}
+	let delay = getPlaybackTime(phrase[Math.max(idx-1,0)]) + timeBetweenWords;
+	console.log("le delay: ",delay)
+	playWord(phrase[idx]);
+	setTimeout(next,delay)
+
 }
 
 
 
 
 function getPlaybackTime(word){
-	let timeToWait = 0
+	// word = ["W","O","R","D"]
+	console.log("le word: ",word)
+	let timeToWait = timeBetweenPhonemes*(word.length-1)
+	console.log("ttwait: ",timeToWait)
+
 	for (let i = 0; i < word.length; i++) {
-		timeToWait += (i*timeBetweenPhonemes)+(Math.ceil(sounds[word[i]].duration*1000))
+		timeToWait += (Math.floor(sounds[word[i]].duration*1000))
 		}
 	return timeToWait	
 }
@@ -98,19 +107,32 @@ function playWord(word) {
 
 
 socket.on("loadPhonemes", (phonemes) => {
-	console.log("load phonemes called!");
 	console.log("The Phonemes:", phonemes);
+	rawPhonemes = [];
+	cleanedPhraseToPlay = [];
+	console.log("recieved? ",phonemes)
 	rawPhonemes = phonemes
 	cleanedPhraseToPlay = cleanPhonemes(rawPhonemes); // C.
+	console.log("cleand up: ",cleanedPhraseToPlay)
 })
 
 
 $(document).ready( () =>{
 	$("#send").click(()=>{
-		rawPhonemes.length>0? console.log("got transcription") : updateConsole("⚠️ No transcription available. Try pressing record.")
-		
-		// let cleanedPhrase = cleanPhonemes(rawPhonemes); U.C.
-		// playlist(cleanedPhrase); U.C.
-		playlist(cleanedPhraseToPlay) // C.
+		if (!recording){
+			rawPhonemes.length>0? console.log("got transcription") : updateConsole("⚠️ No transcription available. Try pressing record.")
+			$("#send")[0].classList.toggle("disabled")
+			updateConsole("sending haptic encoding");
+			// let cleanedPhrase = cleanPhonemes(rawPhonemes); U.C.
+			// playlist(cleanedPhrase); U.C.
+			playlist(cleanedPhraseToPlay,0) // C.			
+		}
+		else{
+			updateConsole("whoa! You're recording! Finish what you're saying first before sending it.")
+		}
 	})
 })
+
+
+// TODO: purge phonemes  rec. raw phonemes
+// wtf up with really long bois
