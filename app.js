@@ -32,6 +32,7 @@ function getPhonemicTranscription(orthography){
 
 
 server.listen(port);
+console.log("listening on: ",port)
 io.on('connection', (socket) => { 
   console.log("io.on connection event!")
   socket.on("newRecording", (wave)=> {
