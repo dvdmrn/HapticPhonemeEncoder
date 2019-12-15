@@ -16,14 +16,7 @@ const util = require('util')
 const tmpFilePath = "resources/temp.wav"
 
 
-// var port = process.env.PORT || 5000
-
-var port = $port
-
-
-// Todos:
-// now that I have the ortho, I need to get the transcription
-// then I need to play sounds
+var port = process.env.PORT || 8080
 
 
 function getPhonemicTranscription(orthography){
@@ -68,19 +61,6 @@ io.on('connection', (socket) => {
 
 
 
-// const express = require('express');
-// const socket = require('socket.io');
-
-
-
-
-
-
-
-
-
-
-
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(bodyParser.json({limit: '50mb', extended: true}));
 
@@ -106,47 +86,3 @@ app.post('/voice/save_recording',function(req,res){
   }); 
 
 });
-
-
-// app.use(express.json());
-// app.use(express.static("static_files"));
-
-
-
-// const courses = {
-// 	1:{id:"1",name:"ass studies"},
-// 	2:{id:"2",name:"ass2 studies"},
-// 	3: {id:"3",name:"ass3 studies"},
-// }
-
-
-// app.get('/', (req, res) =>{
-
-// 	res.send('hello worl');
-
-// });
-
-// app.get("/api/courses", (req,res)=>{
-// 	res.send([1,2,3,4])
-// })
-
-// app.get('/api/courses/:id/:ass', (req, res)=> {
-// 	res.send(req.query)
-// })
-
-// app.post("/api/courses", (req,res)=>{
-// 	const course = {
-// 		id: courses.length + 1
-// 		name: req.body.name
-// 	};
-// 	courses.push(course);
-// 	res.send(course)
-// })
-
-// // PORT env var.
-// // value is set outside of app
-// // set w process obj
-
-
-
-
