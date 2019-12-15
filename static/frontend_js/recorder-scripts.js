@@ -82,6 +82,5 @@ function pushToBackend(blob) {
 
 	});    
 
-    console.log("dl link: ",url)
 
 }
