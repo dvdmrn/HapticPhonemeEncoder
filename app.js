@@ -7,6 +7,7 @@ app.use(basicAuth({
 }));
 app.use(express.static("static"))
 const server = require('http').createServer(app);
+const GoogleAuth = require('google-auth-library');
 const io = require('socket.io')(server);
 const words = require('cmu-pronouncing-dictionary');
 const bodyParser = require('body-parser');
@@ -18,6 +19,22 @@ const tmpFilePath = "resources/temp.wav"
 
 var port = process.env.PORT || 8080
 
+
+function authorize() {
+    return new Promise(resolve => {
+        const authFactory = new GoogleAuth();
+        const jwtClient = new authFactory.JWT(
+            process.env.GOOGLE_CLIENT_EMAIL, // defined in Heroku
+            null,
+            process.env.GOOGLE_PRIVATE_KEY, // defined in Heroku
+            ['https://www.googleapis.com/auth/calendar']
+        );
+
+        jwtClient.authorize(() => resolve(jwtClient));
+    });
+}
+
+authorize()
 
 function getPhonemicTranscription(orthography){
   let transcribeMeDaddy = orthography.toLowerCase().split(" ")
