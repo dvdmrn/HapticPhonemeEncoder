@@ -16,7 +16,10 @@ const util = require('util')
 const tmpFilePath = "resources/temp.wav"
 
 
-var port = process.env.PORT || 5000
+// var port = process.env.PORT || 5000
+
+var port = $port
+
 
 // Todos:
 // now that I have the ortho, I need to get the transcription
@@ -34,7 +37,7 @@ function getPhonemicTranscription(orthography){
 }
 
 
-server.listen(3000);
+server.listen(port);
 io.on('connection', (socket) => { 
   console.log("io.on connection event!")
   socket.on("newRecording", (wave)=> {
