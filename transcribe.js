@@ -10,11 +10,11 @@ module.exports = {
   // Creates a client
   const client = new speech.SpeechClient();
 
-  // The name of the audio file to transcribe
-  const fileName = filePath;
+  // // The name of the audio file to transcribe
+  // const filePath = filePath;
 
   // Reads a local audio file and converts it to base64
-  const file = fs.readFileSync(fileName);
+  const file = fs.readFileSync(filePath);
   const audioBytes = file.toString('base64');
 
   // The audio file's encoding, sample rate in hertz, and BCP-47 language code
