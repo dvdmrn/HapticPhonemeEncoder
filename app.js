@@ -47,7 +47,11 @@ io.on('connection', (socket) => {
           io.emit("updateConsole", msg);
           phonemicTranscription = getPhonemicTranscription(msg);
           io.emit("loadPhonemes", phonemicTranscription)
-        }).catch(console.error);
+        }).catch(()=>{
+                console.error;
+                io.emit("authError");
+              }
+        );
       }
     });
 

@@ -11,9 +11,7 @@ var AudioContext = window.AudioContext || window.webkitAudioContext;
 var audioContext = new AudioContext;
 
 
-
 // functions ========================================
-
 	// converts blob to base64
 function blobToBase64(blob, cb) {
 		var reader = new FileReader();
@@ -79,16 +77,6 @@ function pushToBackend(blob) {
 
   
     socket.emit('newRecording', update);
-
-	  // $.ajax({
-			// url: "/voice/save_recording",
-			// type: "POST",
-			// data: update,
-			// success: (data) => {
-			// 	console.log("ajax call made: ",data)
-			// 	// console.log("var: ",transcription)
-			// }
-			// })
 
 	});    
 

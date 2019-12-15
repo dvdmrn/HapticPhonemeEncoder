@@ -1,6 +1,9 @@
 var timeBetweenPhonemes = 500 // in ms
 var timeBetweenWords = 1000 // in ms
 let phonemeInventory = ["AA","AY","D", "F", "K","N", "R","UW", "AH","B", "EH","G", "L","OW","S","V", "AW","DH","EY","IY","M","P", "T","Z"]
+
+// let phonemeInventory = ["AA","AE","AH","AO","AW","AX","AXR","AY","EH","ER","EY","IH","IX","IY","OW","OY","UH","UW","UX","B","CH","D","DH","DX","EL","EM","EN","F","G","HH","JH","K","L","M","N","NG","P","Q","R","S","SH","T","TH","V","W","WH","Y","Z","ZH"]
+var cleanedPhraseToPlay = []
 var greyBois = new Set([])
 var rawPhonemes = []
 var sounds = 	{
@@ -52,10 +55,10 @@ var cleanPhonemes = (phrase) => {
 	console.log("the cleaned up phonemes: ",cleanedPhrase)
 	if(greyBois.size >= 1){
 		greyBoisArr = []
-		for(let e of greyBois){greyBoisArr.push(e)}
+		for(let e of greyBois){greyBoisArr.push("/"+ArpabetToIpaTable[e]+"/")}
 		console.log("grey bois: ",greyBoisArr.toString())
 		console.log("grey bois: ",greyBois)
-		updateConsole("WARNING: the following phonemes will not be rendered in our encoding system: "+greyBoisArr.toString())
+		updateConsole("WARNING: the following phonemes will not be rendered in our encoding system: "+"{"+greyBoisArr.toString()}"}")
 	}
 	greyBois = new Set([]);
 	return cleanedPhrase
@@ -98,14 +101,16 @@ socket.on("loadPhonemes", (phonemes) => {
 	console.log("load phonemes called!");
 	console.log("The Phonemes:", phonemes);
 	rawPhonemes = phonemes
-
-
+	cleanedPhraseToPlay = cleanPhonemes(rawPhonemes); // C.
 })
 
 
 $(document).ready( () =>{
 	$("#send").click(()=>{
-		let cleanedPhrase = cleanPhonemes(rawPhonemes);
-		playlist(cleanedPhrase);
+		rawPhonemes.length>0? console.log("got transcription") : updateConsole("⚠️ No transcription available. Try pressing record.")
+		
+		// let cleanedPhrase = cleanPhonemes(rawPhonemes); U.C.
+		// playlist(cleanedPhrase); U.C.
+		playlist(cleanedPhraseToPlay) // C.
 	})
 })

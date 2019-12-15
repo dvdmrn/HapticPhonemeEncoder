@@ -53,7 +53,7 @@ $(document).ready( () =>{
       }
     });
 
-
+    socket.on("authError" , ()=>updateConsole("⚠️ authentication error :( Check environment variables."))
 
 
 	$("#recordButton").click( () =>{
