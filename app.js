@@ -49,6 +49,7 @@ io.on('connection', (socket) => {
           phonemicTranscription = getPhonemicTranscription(msg);
           io.emit("loadPhonemes", phonemicTranscription)
         }).catch(()=>{
+                console.log("there's been an error of some kind");
                 console.error;
                 io.emit("authError");
               }
