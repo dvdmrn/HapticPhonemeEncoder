@@ -1,7 +1,7 @@
 
 
 module.exports = {
-  main : async function(filePath, callback) {
+  main : async function(filePath, sampleRate=44100, callback) {
 
   // Imports the Google Cloud client library
   const speech = require('@google-cloud/speech');
@@ -23,7 +23,7 @@ module.exports = {
   };
   const config = {
     encoding: 'LINEAR16',
-    sampleRateHertz: 44100,
+    sampleRateHertz: sampleRate,
     languageCode: 'en-US',
   };
   const request = {

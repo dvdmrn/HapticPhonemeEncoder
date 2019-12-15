@@ -13,7 +13,18 @@ const bodyParser = require('body-parser');
 const fs = require('fs')
 const STT = require("./transcribe.js");
 const util = require('util')
+const wavInfo = require('wav-file-info')
+
+
 const tmpFilePath = "resources/temp.wav"
+
+// wavInfo.infoByFilename(tmpFilePath, function(err, info){
+//   if (err) throw err;
+//   else{
+//     console.log(info["header"]["sample_rate"]);
+//     console.log("yup")
+//   }
+// });
 
 
 var port = process.env.PORT || 8080
@@ -45,17 +56,25 @@ io.on('connection', (socket) => {
         console.log("err", err);
       } else {
         console.log("successfuly saved wav file to server");
-        STT.main(tmpFilePath, (msg) => {
-          console.log("successfuly transcribed with: ",msg);
-          io.emit("updateConsole", msg);
-          phonemicTranscription = getPhonemicTranscription(msg);
-          io.emit("loadPhonemes", phonemicTranscription)
-        }).catch((err)=>{
-                console.log("there's been an error of some kind: ",err);
-                console.error;
-                io.emit("authError");
-              }
-        );
+        wavInfo.infoByFilename(tmpFilePath, function(err, info){
+            if (err) throw err;
+            else{
+              console.log("found file: ",info);
+              STT.main(tmpFilePath, info["header"]["sample_rate"], (msg) => {
+                console.log("successfuly transcribed with: ",msg);
+                io.emit("updateConsole", msg);
+                phonemicTranscription = getPhonemicTranscription(msg);
+                io.emit("loadPhonemes", phonemicTranscription)
+              }).catch((err)=>{
+                      console.log("there's been an error of some kind: ",err);
+                      console.error;
+                      io.emit("authError");
+                    }
+              );
+            }
+
+
+          });
       }
     });
 
