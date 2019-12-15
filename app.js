@@ -1,5 +1,10 @@
 const express = require('express');
+const basicAuth = require('express-basic-auth')
 const app = express()
+app.use(basicAuth({
+    users: { srl: 'eurohaptics' },
+    challenge: true // <--- needed to actually show the login dialog!
+}));
 app.use(express.static("static"))
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
@@ -8,11 +13,10 @@ const bodyParser = require('body-parser');
 const fs = require('fs')
 const STT = require("./transcribe.js");
 const util = require('util')
-
 const tmpFilePath = "resources/temp.wav"
 
 
-var port = process.env.PORT || 3000
+var port = process.env.PORT || 5000
 
 // Todos:
 // now that I have the ortho, I need to get the transcription

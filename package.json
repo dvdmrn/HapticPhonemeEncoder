@@ -1,5 +1,5 @@
 {
-  "name": "nodeTests",
+  "name": "Haptic-Phoneme-Encoder",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -15,6 +15,10 @@
     "body-parser": "^1.19.0",
     "cmu-pronouncing-dictionary": "^1.0.3",
     "express": "^4.17.1",
+    "express-basic-auth": "^1.2.0",
     "socket.io": "^2.3.0"
+  },
+  "engines": {
+    "node": "12.13.1"
   }
 }
