@@ -65,6 +65,7 @@ function stopRecording() {
     rec.stop(); //stop microphone access 
     gumStream.getAudioTracks()[0].stop();
     //create the wav blob and pass it on to pushToBackend 
+    // blob doesn't write properly!!!
     rec.exportWAV(pushToBackend);
 }
 

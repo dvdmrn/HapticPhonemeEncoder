@@ -1,7 +1,7 @@
 var timeBetweenPhonemes = 100 // in ms
 var timeBetweenWords = 2000 // in ms
 let phonemeInventory = ["AA","AY","D", "F", "K","N", "R","UW", "AH","B", "EH","G", "L","OW","S","V", "AW","DH","EY","IY","M","P", "T","Z"]
-
+var sendingPhonemes = false
 // let phonemeInventory = ["AA","AE","AH","AO","AW","AX","AXR","AY","EH","ER","EY","IH","IX","IY","OW","OY","UH","UW","UX","B","CH","D","DH","DX","EL","EM","EN","F","G","HH","JH","K","L","M","N","NG","P","Q","R","S","SH","T","TH","V","W","WH","Y","Z","ZH"]
 var cleanedPhraseToPlay = []
 var greyBois = new Set([])
@@ -66,7 +66,10 @@ function playlist(phrase, idx) {
 	console.log("playlist invoked @ ",idx, "W phrase: ",phrase)
 	if(idx>=phrase.length){
 		$("#send")[0].classList.toggle("disabled")
-		updateConsole("message sent");
+		$("#recordButton")[0].classList.toggle("disabled")
+
+		updateConsole("...complete!");
+		sendingPhonemes = false;
 		return;
 	}
 	let next = function() {playlist(phrase, idx+1)}
@@ -119,16 +122,26 @@ socket.on("loadPhonemes", (phonemes) => {
 
 $(document).ready( () =>{
 	$("#send").click(()=>{
-		if (!recording){
-			rawPhonemes.length>0? console.log("got transcription") : updateConsole("⚠️ No transcription available. Try pressing record.")
+		if (!recording && !sendingPhonemes && !processingSpeech){
+			if(rawPhonemes.length>0)
+				console.log("got transcription")
+			else{
+				updateConsole("⚠️ No transcription available. Try pressing record.");
+				return
+			}
 			$("#send")[0].classList.toggle("disabled")
-			updateConsole("sending haptic encoding");
+			$("#recordButton")[0].classList.toggle("disabled")
+
+			updateConsole("✨ sending haptic encoding...");
 			// let cleanedPhrase = cleanPhonemes(rawPhonemes); U.C.
 			// playlist(cleanedPhrase); U.C.
-			playlist(cleanedPhraseToPlay,0) // C.			
+			playlist(cleanedPhraseToPlay,0) // C.
+			sendingPhonemes = true;			
 		}
 		else{
-			updateConsole("whoa! You're recording! Finish what you're saying first before sending it.")
+			if(recording) updateConsole("Whoa! You're recording! Finish what you're saying first before sending it.");
+			if(processingSpeech) updateConsole("Slow down buddy I'm still processing what you just said...");
+
 		}
 	})
 })

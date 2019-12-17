@@ -1,5 +1,5 @@
 var recording = false;
-
+var processingSpeech = false;
 
 
 var updateTranscription = (transcription, word) => {
@@ -49,6 +49,7 @@ $(document).ready( () =>{
       	updateConsole("Sorry, I don't understand. Try recording again.")
       }
       else{
+      	processingSpeech = false;
       	updateConsole("I think you said:<br><div class='tab'>↪ &lt;<span class='orthography'>"+msg+"</span>&gt;<br>↪ if that looks correct, press <b>send</b></div>");
       }
     });
@@ -63,9 +64,10 @@ $(document).ready( () =>{
 			$("#recordButton")[0].classList.toggle("rec")
 			$("#send")[0].classList.toggle("disabled")
 			updateConsole("recording stopped! Processing speech...")
+			processingSpeech = true;
 			stopRecording(); // in recorder-scripts.js
 		}
-		else{
+		else if (!sendingPhonemes){
 			// set to recording
 			console.log("toggling rec button",$("#recordButton")[0].classList)
 			recording = !recording

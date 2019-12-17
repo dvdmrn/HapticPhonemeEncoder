@@ -89,10 +89,6 @@ body{
 	color:#ff7efd;
 }
 
-#send:active{
-	background-color: #75f7cc;
-}
-
 .disabled{
 	color: #888;
 }
