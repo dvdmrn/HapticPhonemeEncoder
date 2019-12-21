@@ -79,13 +79,7 @@ $(document).ready( () =>{
 		}
 
 	})
-	// $("#send").click(()=>{
-	// 	updateConsole("sending haptic phonemes...");
-				
-	// 	AntiAjaxAjaxClub(0,phraseArr.length-1, phrase, phraseArr)
 
-
-	// })
 })
 
 
