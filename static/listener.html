@@ -1,0 +1,29 @@
+<head>
+	<title>Live Haptic Phoneme Encoder</title>
+	<script type="text/javascript" src="socket/socket.io.js"></script> 
+	<script type="text/javascript">
+		const socket = io();
+	</script>
+	<script type="text/javascript" src="frontend_js/jquery-3.4.1.min.js"></script>
+	<script type="text/javascript" src="frontend_js/arpabet2ipa.js"></script>
+<!-- 	<script type="text/javascript" src="frontend_js/RecUIHandling.js"></script>
+	<script type="text/javascript" src="frontend_js/Phrase.js"></script>
+	<script type="text/javascript" src="frontend_js/console.js"></script>
+	<script type="text/javascript" src="frontend_js/PlaybackHandling.js"></script>
+ -->
+	<link rel='stylesheet' type="text/css" href="style.css">
+	<meta charset="utf-8"/>
+
+</head>
+<body>
+	<div id="title"> Haptic Phoneme Encoder </div>
+	<br>
+	<div id="console"><span class="consoleLine"></span></div>
+	<p>
+	<div id="recordButton" class="button">record</div><div id="send" class="button">send</div>
+
+	<!-- inserting these scripts at the end to be able to use all the elements in the DOM --> 
+	<script src="frontend_js/recorder.js"></script>
+	<script src="frontend_js/recorder-scripts.js"></script>
+
+</body>
