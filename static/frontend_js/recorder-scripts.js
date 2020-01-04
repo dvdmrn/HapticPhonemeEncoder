@@ -29,7 +29,7 @@ function blobToBase64(blob, cb) {
 function startRecording() {
 	/* Simple constraints object, for more advanced audio features see
 	https://addpipe.com/blog/audio-constraints-getusermedia/ */
-
+	console.log("start recording called")
 	var constraints = {
 	    audio: true,
 	    video: false
