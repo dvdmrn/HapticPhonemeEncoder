@@ -54,7 +54,7 @@ function startRecording() {
 	    console.log("Recording started");
 	}).catch(function(err) {
 	    //enable the record button if getUserMedia() fails 
-	    alert("getUserMedia() failed! Have you disabled microphone browser permissions?");
+	    alert("getUserMedia() failed! Some possible reasons: \n- microphone browser permissions have been disabled\n- you didn't type 'HTTPS',\n- this app is only tested on Firefox");
 	});
 }
 
