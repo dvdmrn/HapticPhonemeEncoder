@@ -14,7 +14,4 @@ var updateConsole = function(text){
 		}, 800);
 	// $("#console").html(consoleTxt);
 }	
-$(document).ready( () => {
-	updateConsole("Welcome! Press <b>record</b> to record your speech. Press <b>send</b> to send it to an interlocutor.<p> ")
-	})
 

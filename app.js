@@ -64,7 +64,7 @@ io.on('connection', (socket) => {
                 console.log("successfuly transcribed with: ",msg);
                 io.emit("updateConsole", msg);
                 phonemicTranscription = getPhonemicTranscription(msg);
-                io.emit("loadPhonemes", phonemicTranscription)
+                io.emit("loadPhonemes", {"transcription":phonemicTranscription,"text":false})
               }).catch((err)=>{
                       console.log("there's been an error of some kind: ",err);
                       console.error;
@@ -80,6 +80,20 @@ io.on('connection', (socket) => {
 
 
   })
+
+  socket.on("newText", (msg)=>{
+    console.log("recieved text: ",msg);
+    phonemicTranscription = getPhonemicTranscription(msg);
+    if(phonemicTranscription != false){
+      console.log("phonology: ",phonemicTranscription);
+      io.emit("loadPhonemes", {"transcription":phonemicTranscription,"text":true});
+    }
+    else{
+      console.log("transcription error");
+      io.emit("textTranscriptionError")
+    }
+  })
+
  });
 
 

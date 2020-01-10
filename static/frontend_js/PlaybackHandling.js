@@ -94,6 +94,7 @@ function playPhrase(phraseArr, idx){
 				$("#send")[0].classList.toggle("disabled")
 				$("#recordButton")[0].classList.toggle("disabled")
 				updateConsole("...complete!");
+				$("#textField").val("");
 				// lastPhoneme.currentTime = 0
 		return;
 
@@ -181,43 +182,51 @@ function constructPhraseArr(cleanedPhraseToPlay){
 
 
 socket.on("loadPhonemes", (phonemes) => {
-	console.log("The Phonemes:", phonemes);
+	console.log("The Phonemes:", phonemes["transcription"]);
 	rawPhonemes = [];
 	cleanedPhraseToPlay = [];
-	console.log("recieved? ",phonemes)
-	rawPhonemes = phonemes
+	console.log("recieved? ",phonemes["transcription"])
+	rawPhonemes = phonemes["transcription"]
 	cleanedPhraseToPlay = cleanPhonemes(rawPhonemes); // C.
 	phrasePlaylist = constructPhraseArr(cleanedPhraseToPlay);
 	console.log("cleand up: ",cleanedPhraseToPlay)
 	console.log("playlist: ",phrasePlaylist)
+	if(phonemes["text"]){
+		play();
+	}
+
 
 })
 
+var play = function(){
+	if (!recording && !sendingPhonemes && !processingSpeech){
+		if(rawPhonemes.length>0)
+			console.log("got transcription")
+		else{
+			updateConsole("⚠️ No transcription available. Try pressing record.");
+			return
+		}
+		$("#send")[0].classList.toggle("disabled")
+		$("#recordButton")[0].classList.toggle("disabled")
+
+		updateConsole("✨ sending haptic encoding...");
+		// let cleanedPhrase = cleanPhonemes(rawPhonemes); U.C.
+		// playlist(cleanedPhrase); U.C.
+
+		playPhrase(phrasePlaylist,-1) // C.
+		sendingPhonemes = true;
+	}
+	else{
+		if(recording) updateConsole("Whoa! You're recording! Finish what you're saying first before sending it.");
+		if(processingSpeech) updateConsole("Slow down buddy I'm still processing what you just said...");
+
+	}
+
+}
 
 $(document).ready( () =>{
 	$("#send").click(()=>{
-		if (!recording && !sendingPhonemes && !processingSpeech){
-			if(rawPhonemes.length>0)
-				console.log("got transcription")
-			else{
-				updateConsole("⚠️ No transcription available. Try pressing record.");
-				return
-			}
-			$("#send")[0].classList.toggle("disabled")
-			$("#recordButton")[0].classList.toggle("disabled")
-
-			updateConsole("✨ sending haptic encoding...");
-			// let cleanedPhrase = cleanPhonemes(rawPhonemes); U.C.
-			// playlist(cleanedPhrase); U.C.
-
-			playPhrase(phrasePlaylist,-1) // C.
-			sendingPhonemes = true;
-		}
-		else{
-			if(recording) updateConsole("Whoa! You're recording! Finish what you're saying first before sending it.");
-			if(processingSpeech) updateConsole("Slow down buddy I'm still processing what you just said...");
-
-		}
+		play()
 	})
 })
 

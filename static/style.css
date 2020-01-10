@@ -4,7 +4,6 @@ body{
 	margin:0px;
 	font-size: 3.4em;
 
-
 }
 
 #title{
@@ -22,7 +21,7 @@ body{
 	height: 33vh;
 	overflow-y: scroll;
 	scroll-behavior: bottom;	
-
+	text-align: left;
 }
 
 .button{
@@ -93,3 +92,34 @@ body{
 	color: #888;
 }
 
+.txtField {
+  width: 95%;
+  position: absolute;
+  display: inline-block;
+  border: 3px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size:inherit;
+  margin:10px;
+  padding:45px;
+	
+}
+
+.fltButton {
+	right:0px;
+	float: right;
+	font-size: inherit;
+	color:blue;
+	position: absolute;
+	z-index: 10;
+	text-align: right;
+	background-color:#eee;
+	border:solid 1px #449;
+	vertical-align: True;
+	text-align: center;
+	margin:10px;
+	box-shadow: inset 0 -0.15rem 0 rgba(0, 0, 0, 0.2);
+	font-weight: bold;
+	padding:43px;
+
+}
