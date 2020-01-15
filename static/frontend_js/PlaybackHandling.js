@@ -4,8 +4,8 @@
 
 
 
-var timeBetweenPhonemes = 1000 // in ms
-var timeBetweenWords = 3000 // in ms
+var timeBetweenPhonemes = 500 // in ms
+var timeBetweenWords = 2000 // in ms
 let phonemeInventory = ["AA","AY","D", "F", "K","N", "R","UW", "AH","B", "EH","G", "L","OW","S","V", "AW","DH","EY","IY","M","P", "T","Z"]
 var sendingPhonemes = false
 // let phonemeInventory = ["AA","AE","AH","AO","AW","AX","AXR","AY","EH","ER","EY","IH","IX","IY","OW","OY","UH","UW","UX","B","CH","D","DH","DX","EL","EM","EN","F","G","HH","JH","K","L","M","N","NG","P","Q","R","S","SH","T","TH","V","W","WH","Y","Z","ZH"]
