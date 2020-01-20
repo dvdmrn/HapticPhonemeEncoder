@@ -3,7 +3,7 @@
 	<script type="text/javascript" src="socket/socket.io.js"></script> 
 	<script type="text/javascript">
 		const socket = io();
-
+		const listener = true;
 		let pID = prompt("Enter participant ID (leave blank to not change anything).\nIf you are a participant and accidentally refreshed the page, just leave the field below blank and click OK.", "");
 		if(pID){
 			socket.emit("initParticipant",pID);

@@ -23,12 +23,13 @@ const tmpFilePath = "resources/temp.wav"
 var port = process.env.PORT || 8080
 
 
+var _targetMsg = "";
 
 function newParticipant(pID) {
   dateOptions = { year: 'numeric', month: '2-digit', day: '2-digit', hour:"2-digit", minute:"2-digit",second:"2-digit"};
   today  = new Date().toLocaleDateString('en-US',dateOptions);
   formatDate = today.replace(/\//g,"-").replace(",","");
-  pID = "P"+pID+" "+formatDate;
+  pID = "P"+pID+" "+formatDate+".csv";
   console.log(pID);
   return pID;
 }
@@ -59,8 +60,19 @@ io.on('connection', (socket) => {
   socket.on("initParticipant", (participant) => {
     fn = newParticipant(participant);
     csv.init(fn)
-    csv.writeRow([{target_phrase:"hello worl", response_phrase:"Henlo World", response_time:69, n_playAgain:6, t_playAgain:[10,444,32,34]}])
+  })
 
+  socket.on("newStimuli", () =>
+  {
+    io.emit("newStimuli");
+  })
+
+  socket.on("response", (msg) => {
+    csv.writeRow([{target_phrase:_targetMsg, 
+                   response_phrase:msg["response"], 
+                   response_time:msg["response_time"], 
+                   n_playAgain:msg["n_plays"], 
+                   t_playAgain:msg["play_again_times"]}])
   })
 
   socket.on("newRecording", (wave)=> {
@@ -79,6 +91,7 @@ io.on('connection', (socket) => {
               console.log("found file: ",info);
               STT.main(tmpFilePath, info["header"]["sample_rate"], (msg) => {
                 console.log("successfuly transcribed with: ",msg);
+                _targetMsg = msg;
                 io.emit("updateConsole", msg);
                 phonemicTranscription = getPhonemicTranscription(msg);
                 io.emit("loadPhonemes", {"transcription":phonemicTranscription,"text":false})
@@ -98,8 +111,17 @@ io.on('connection', (socket) => {
 
   })
 
+  socket.on("playForAll", ()=>{
+    io.emit("play");
+  })
+
+  socket.on("readyForNextPhrase", ()=>{
+    io.emit("notifySpeaker");
+  })
+
   socket.on("newText", (msg)=>{
     console.log("recieved text: ",msg);
+    _targetMsg = msg;
     phonemicTranscription = getPhonemicTranscription(msg);
     if(phonemicTranscription != false){
       console.log("phonology: ",phonemicTranscription);

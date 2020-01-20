@@ -24,8 +24,7 @@ function writeRow(jsonRow){
 	const rowStr = json2csvParser.parse(jsonRow, {header: false});
 	// this includes the header even though we specify it not to so we need to remove it
 	headerlessRow = rowStr.split("\n")[1]
-	console.log("d2",headerlessRow)
-
+	headerlessRow+="\n"
 
 	fs.appendFile(fileName, headerlessRow, function(err) {
 		if (err) throw err;

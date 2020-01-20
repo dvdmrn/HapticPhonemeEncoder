@@ -39,10 +39,12 @@ var AntiAjaxAjaxClub = (i, maxCalls, phrase, phraseArr) => {
 
 
 
-
 $(document).ready( () =>{
 	console.log("henlo")
 
+	socket.on('notifySpeaker', ()=>{
+		updateConsole("👍 response logged. Please proceed with the next phrase.");
+	});
 
     socket.on('updateConsole', function(msg){
       if (msg==""){
@@ -63,7 +65,11 @@ $(document).ready( () =>{
     		msg = $("#textField").val();
     		updateConsole("input text: "+$("#textField").val())
     		socket.emit("newText", msg);
+    		socket.emit("newStimuli");
     	}
+    })
+    $('#send').click( () =>{
+    		socket.emit("newStimuli");    	
     })
 	$("#recordButton").click( () =>{
 		if(recording){

@@ -6,7 +6,9 @@
 
 var timeBetweenPhonemes = 1000 // in ms
 var timeBetweenWords = 3000 // in ms
-let phonemeInventory = ["AA","AY","D", "F", "K","N", "R","UW", "AH","B", "EH","G", "L","OW","S","V", "AW","DH","EY","IY","M","P", "T","Z"]
+let phonemeInventory = ["AA", "AO", "AE", "AH", "AW", "AY", "B", "D", "DH", "EH", "EY", "F", "G", "Y", "IH", "IY", "K", "L", "M", "N", "OW", "P", "R", "S", "T", "UH", "UW", "W", "V", "Z"]
+
+
 var sendingPhonemes = false
 // let phonemeInventory = ["AA","AE","AH","AO","AW","AX","AXR","AY","EH","ER","EY","IH","IX","IY","OW","OY","UH","UW","UX","B","CH","D","DH","DX","EL","EM","EN","F","G","HH","JH","K","L","M","N","NG","P","Q","R","S","SH","T","TH","V","W","WH","Y","Z","ZH"]
 var cleanedPhraseToPlay = []
@@ -14,37 +16,37 @@ var phrasePlaylist = []
 
 var greyBois = new Set([])
 var rawPhonemes = []
-var sounds = 	{
-				"AA": new Audio("haptemes/AA.wav"), 
-				"AO": new Audio("haptemes/AA.wav"), 
-				"AE": new Audio("haptemes/AA.wav"), 
-				"AH": new Audio("haptemes/AH.wav"), 
-				"AW": new Audio("haptemes/AW.wav"),
-				"AY": new Audio("haptemes/AY.wav"),
-				"B": new Audio("haptemes/B.wav"),
-				"D": new Audio("haptemes/D.wav"),
-				"DH": new Audio("haptemes/DH.wav"),
-				"EH": new Audio("haptemes/EH.wav"),
-				"EY": new Audio("haptemes/EY.wav"),
-				"F": new Audio("haptemes/F.wav"),
-				"G": new Audio("haptemes/G.wav"),
-				"Y": new Audio("haptemes/IY.wav"),
-				"IH": new Audio("haptemes/IY.wav"),
-				"IY": new Audio("haptemes/IY.wav"),
-				"K": new Audio("haptemes/K.wav"),
-				"L": new Audio("haptemes/L.wav"),
-				"M": new Audio("haptemes/M.wav"),
-				"N": new Audio("haptemes/N.wav"),
-				"OW": new Audio("haptemes/OW.wav"),
-				"P": new Audio("haptemes/P.wav"),
-				"R": new Audio("haptemes/R.wav"),
-				"S": new Audio("haptemes/S.wav"),
-				"T": new Audio("haptemes/T.wav"),
-				"UH": new Audio("haptemes/UW.wav"),
-				"UW": new Audio("haptemes/UW.wav"),
-				"W": new Audio("haptemes/UW.wav"),
-				"V": new Audio("haptemes/V.wav"),
-				"Z": new Audio("haptemes/Z.wav"),
+var conflation = {
+				"AA":"AA", 
+				"AO":"AA", 
+				"AE":"AA", 
+				"AH":"AH", 
+				"AW":"AW",
+				"AY":"AY",
+				"B": "B",
+				"D": "D",
+				"DH":"DH",
+				"EH":"EH",
+				"EY":"EY",
+				"F": "F",
+				"G": "G",
+				"Y": "IY",
+				"IH":"IY",
+				"IY":"IY",
+				"K": "K",
+				"L": "L",
+				"M": "M",
+				"N": "N",
+				"OW":"OW",
+				"P": "P",
+				"R": "R",
+				"S": "S",
+				"T": "T",
+				"UH":"UW",
+				"UW":"UW",
+				"W": "UW",
+				"V": "V",
+				"Z": "Z",
 				}
 
 var cleanPhonemes = (phrase) => {
@@ -61,7 +63,25 @@ var cleanPhonemes = (phrase) => {
 		  			cleanedWord.push(cleanPhoneme)
 				}
 				else{
-					greyBois.add(cleanPhoneme)
+					
+
+					switch(cleanPhoneme) {
+					  case "ER":
+					    cleanedWord.push("AH");
+					    cleanedWord.push("R");
+					    break;
+					  case "NG":
+					    cleanedWord.push("N");
+					    cleanedWord.push("G");
+					    break;
+					  case "OY":
+					    cleanedWord.push("AA");
+					    cleanedWord.push("IY");
+					    break;
+					  default:
+					  	console.log("adding to greybois: ",cleanPhoneme)
+						greyBois.add(cleanPhoneme)
+					}
 				}
 			}
 			cleanedPhrase.push(cleanedWord)}
@@ -99,9 +119,14 @@ function playPhrase(phraseArr, idx){
 				console.log("reached base case")
 				$("#send")[0].classList.toggle("disabled")
 				$("#recordButton")[0].classList.toggle("disabled")
+				if(typeof $("#response")[0] !== 'undefined'){
+					$("#response")[0].classList.toggle("disabled")
+				}
+
 				updateConsole("...complete!");
+
+
 				$("#textField").val("");
-				// lastPhoneme.currentTime = 0
 		return;
 
 	};
@@ -119,66 +144,13 @@ function playWord(wordArr, idx){
 	wordArr[idx].play();
 }
 
-// w0 = [new Audio("haptemes/AA.wav"), new Audio("haptemes/OW.wav"), new Audio("haptemes/AA.wav"), new Audio("haptemes/S.wav")]
-// w1 = [new Audio("haptemes/OW.wav"), new Audio("haptemes/OW.wav")]
-// w2 = [new Audio("haptemes/F.wav"), new Audio("haptemes/EY.wav")]
-// p0 = [w0,w1,w2]
-
-// playPhrase(p0,-1);
-
-// playWord(w0,-1)
-// function playlist(phrase, idx) {
-// 	console.log("playlist invoked @ ",idx, "W phrase: ",phrase)
-// 	if(idx>=phrase.length){
-// 		$("#send")[0].classList.toggle("disabled")
-// 		$("#recordButton")[0].classList.toggle("disabled")
-
-// 		updateConsole("...complete!");
-// 		sendingPhonemes = false;
-// 		return;
-// 	}
-// 	let next = function() {playlist(phrase, idx+1)}
-// 	let delay = getPlaybackTime(phrase[Math.max(idx-1,0)]) + timeBetweenWords;
-// 	console.log("le delay: ",delay)
-// 	playWord(phrase[idx]);
-// 	setTimeout(next,delay)
-
-// }
-
-
-
-
-// function getPlaybackTime(word){
-// 	// word = ["W","O","R","D"]
-// 	console.log("le word: ",word)
-// 	let timeToWait = timeBetweenPhonemes*(word.length-1)
-// 	console.log("ttwait: ",timeToWait)
-
-// 	for (let i = 0; i < word.length; i++) {
-// 		timeToWait += (Math.floor(sounds[word[i]].duration*1000))
-// 		}
-// 	return timeToWait	
-// }
-
-
-
-// function playWord(word) {
-// 	console.log("playword invoked")
-// 	for (let i = 0; i < word.length; i++) {
-// 		setTimeout(()=>{
-// 			sounds[word[i]].currentTime = 0;
-// 			sounds[word[i]].play()
-// 		},
-// 			(i*timeBetweenPhonemes)+(Math.ceil(sounds[word[Math.max(i-1,0)]].duration*1000))
-// 		)}
-// 	}
 
 function constructPhraseArr(cleanedPhraseToPlay){
 	let phraseArray = []
 	for (let j = 0; j<cleanedPhraseToPlay.length; j++) {
 		let wordArray = []
 		for(let k=0; k<cleanedPhraseToPlay[j].length; k++){
-			wordArray.push(new Audio("haptemes/"+cleanedPhraseToPlay[j][k]+".wav"))
+			wordArray.push(new Audio("haptemes/"+conflation[cleanedPhraseToPlay[j][k]]+".wav"))
 		}
 		phraseArray.push(wordArray)
 	}
@@ -197,11 +169,15 @@ socket.on("loadPhonemes", (phonemes) => {
 	phrasePlaylist = constructPhraseArr(cleanedPhraseToPlay);
 	console.log("cleand up: ",cleanedPhraseToPlay)
 	console.log("playlist: ",phrasePlaylist)
+
 	if(phonemes["text"]){
 		play();
 	}
 
+})
 
+socket.on("play",()=>{
+	play();
 })
 
 var play = function(){
@@ -214,6 +190,9 @@ var play = function(){
 		}
 		$("#send")[0].classList.toggle("disabled")
 		$("#recordButton")[0].classList.toggle("disabled")
+		if(typeof $("#response")[0] !== 'undefined'){
+			$("#response")[0].classList.toggle("disabled")
+		}
 
 		updateConsole("✨ sending haptic encoding...");
 		// let cleanedPhrase = cleanPhonemes(rawPhonemes); U.C.
@@ -232,7 +211,8 @@ var play = function(){
 
 $(document).ready( () =>{
 	$("#send").click(()=>{
-		play()
+		// play()
+		socket.emit("playForAll")
 	})
 })
 
