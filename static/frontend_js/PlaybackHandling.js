@@ -16,6 +16,8 @@ var greyBois = new Set([])
 var rawPhonemes = []
 var sounds = 	{
 				"AA": new Audio("haptemes/AA.wav"), 
+				"AO": new Audio("haptemes/AA.wav"), 
+				"AE": new Audio("haptemes/AA.wav"), 
 				"AH": new Audio("haptemes/AH.wav"), 
 				"AW": new Audio("haptemes/AW.wav"),
 				"AY": new Audio("haptemes/AY.wav"),
@@ -26,6 +28,8 @@ var sounds = 	{
 				"EY": new Audio("haptemes/EY.wav"),
 				"F": new Audio("haptemes/F.wav"),
 				"G": new Audio("haptemes/G.wav"),
+				"Y": new Audio("haptemes/IY.wav"),
+				"IH": new Audio("haptemes/IY.wav"),
 				"IY": new Audio("haptemes/IY.wav"),
 				"K": new Audio("haptemes/K.wav"),
 				"L": new Audio("haptemes/L.wav"),
@@ -36,7 +40,9 @@ var sounds = 	{
 				"R": new Audio("haptemes/R.wav"),
 				"S": new Audio("haptemes/S.wav"),
 				"T": new Audio("haptemes/T.wav"),
+				"UH": new Audio("haptemes/UW.wav"),
 				"UW": new Audio("haptemes/UW.wav"),
+				"W": new Audio("haptemes/UW.wav"),
 				"V": new Audio("haptemes/V.wav"),
 				"Z": new Audio("haptemes/Z.wav"),
 				}

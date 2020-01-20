@@ -12,22 +12,31 @@ const words = require('cmu-pronouncing-dictionary');
 const bodyParser = require('body-parser');
 const fs = require('fs')
 const STT = require("./transcribe.js");
-const util = require('util')
-const wavInfo = require('wav-file-info')
+const util = require('util');
+const wavInfo = require('wav-file-info');
+const csv = require('./writeData');
+// const STT = require("./transcribe.js");
 
 
 const tmpFilePath = "resources/temp.wav"
 
-// wavInfo.infoByFilename(tmpFilePath, function(err, info){
-//   if (err) throw err;
-//   else{
-//     console.log(info["header"]["sample_rate"]);
-//     console.log("yup")
-//   }
-// });
-
-
 var port = process.env.PORT || 8080
+
+
+
+function newParticipant(pID) {
+  dateOptions = { year: 'numeric', month: '2-digit', day: '2-digit', hour:"2-digit", minute:"2-digit",second:"2-digit"};
+  today  = new Date().toLocaleDateString('en-US',dateOptions);
+  formatDate = today.replace(/\//g,"-").replace(",","");
+  pID = "P"+pID+" "+formatDate;
+  console.log(pID);
+  return pID;
+}
+
+
+
+
+
 
 
 
@@ -46,6 +55,14 @@ server.listen(port);
 console.log("listening on: ",port)
 io.on('connection', (socket) => { 
   console.log("io.on connection event!")
+
+  socket.on("initParticipant", (participant) => {
+    fn = newParticipant(participant);
+    csv.init(fn)
+    csv.writeRow([{target_phrase:"hello worl", response_phrase:"Henlo World", response_time:69, n_playAgain:6, t_playAgain:[10,444,32,34]}])
+
+  })
+
   socket.on("newRecording", (wave)=> {
     console.log("Received new recording!")
 
