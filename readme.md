@@ -1,7 +1,7 @@
-## Haptic Phoneme Encoder
+# Haptic Phoneme Encoder
 Intended for use in study, not demo.
 
-# How to use:
+## How to use:
 - Run on your computer by using `node app.js`
 - Connect to a wifi network, and have all phones connect to the same network
 - Find your inet ip address by running `ifconfig`. (Works on Linux but Windows/OSX may have different commands). The address you're looking for is usually in the form: NNN.NNN.NN.NN (N=Natural). It will typically *not* be the one with 0s in it. (e.g. 127.0.0.1).
