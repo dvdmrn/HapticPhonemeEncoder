@@ -1,6 +1,6 @@
 var recording = false;
 var processingSpeech = false;
-
+var speakerTurn = true;
 
 var updateTranscription = (transcription, word) => {
 	transcription+=word;
@@ -44,6 +44,7 @@ $(document).ready( () =>{
 
 	socket.on('notifySpeaker', ()=>{
 		updateConsole("👍 response logged. Please proceed with the next phrase.");
+		speakerTurn = true;
 	});
 
     socket.on('updateConsole', function(msg){
@@ -61,35 +62,42 @@ $(document).ready( () =>{
     socket.on("textTranscriptionError", ()=>updateConsole("Transcription Error: I'm not sure how to transcribe your text."))
 
     $("#sendTxt").click( () =>{
-    	if(!recording && !sendingPhonemes){
+    	if(!recording && !sendingPhonemes && speakerTurn){
     		msg = $("#textField").val();
     		updateConsole("input text: "+$("#textField").val())
     		socket.emit("newText", msg);
     		socket.emit("newStimuli");
+    		speakerTurn = false;
     	}
     })
     $('#send').click( () =>{
-    		socket.emit("newStimuli");  	
+    		if(speakerTurn){
+    			socket.emit("newStimuli");
+    			socket.emit("playForAll")
+    			speakerTurn = false;  	
+    		}
     })
 	$("#recordButton").click( () =>{
-		if(recording){
-			// set to not recording
-			recording = !recording
-			$("#recordButton")[0].classList.toggle("rec")
-			$("#send")[0].classList.toggle("disabled")
-			updateConsole("recording stopped! Processing speech...")
-			processingSpeech = true;
-			stopRecording(); // in recorder-scripts.js
-		}
-		else if (!sendingPhonemes){
-			// set to recording
-			console.log("toggling rec button",$("#recordButton")[0].classList)
-			recording = !recording
-			$("#recordButton")[0].classList.toggle("rec")
-			$("#send")[0].classList.toggle("disabled")
-			updateConsole("now recording...")
-			startRecording(); // in recorder-scripts.js
+		if(speakerTurn){
+			if(recording){
+				// set to not recording
+				recording = !recording
+				$("#recordButton")[0].classList.toggle("rec")
+				$("#send")[0].classList.toggle("disabled")
+				updateConsole("recording stopped! Processing speech...")
+				processingSpeech = true;
+				stopRecording(); // in recorder-scripts.js
+			}
+			else if (!sendingPhonemes){
+				// set to recording
+				console.log("toggling rec button",$("#recordButton")[0].classList)
+				recording = !recording
+				$("#recordButton")[0].classList.toggle("rec")
+				$("#send")[0].classList.toggle("disabled")
+				updateConsole("now recording...")
+				startRecording(); // in recorder-scripts.js
 
+			}
 		}
 
 	})

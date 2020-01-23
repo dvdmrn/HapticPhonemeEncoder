@@ -224,7 +224,7 @@ var play = function(){
 $(document).ready( () =>{
 	$("#send").click(()=>{
 		// play()
-		socket.emit("playForAll")
+		
 	})
 })
 

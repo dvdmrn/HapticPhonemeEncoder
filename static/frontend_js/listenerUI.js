@@ -24,19 +24,21 @@ $(document).ready(() => {
 	})
 
 	$("#send").click(()=>{
-		if(listenerTurn){
-			
+		if(listenerTurn && !sendingPhonemes && !recording){
+			console.log("sendlinkclicked");
+			nPlays++;
+			playAgainInterval = new Date() - playAgainStart;
+			playAgainStart = new Date();
+			playAgains.push(playAgainInterval);
+			socket.emit("playForAll")
+						
 		}
-		nPlays++;
-		playAgainInterval = new Date() - playAgainStart;
-		playAgainStart = new Date();
-		playAgains.push(playAgainInterval);			
 
 	})
 
 
 	$("#response").click(()=>{
-		if(!recording && !sendingPhonemes){
+		if(!recording && !sendingPhonemes && listenerTurn){
 			responseTime = new Date();
 			difference = responseTime - startTime;
 			msg = $("#txtFieldResponse").val();
@@ -48,8 +50,8 @@ $(document).ready(() => {
 	    	$("#txtFieldResponse").val("");
 	    	nPlays = 0;
 	    	playAgains = []
+	    	listenerTurn = false;
 	    	socket.emit("readyForNextPhrase");
-
 		}
 	})
 })
