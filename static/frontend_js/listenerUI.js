@@ -5,25 +5,35 @@ var responseTime = new Date();
 var nPlays = 0;
 var playAgains = []
 var playAgainStart = new Date();
+var listenerTurn = false;
 
 
 socket.on("newStimuli", ()=>{
 	console.log("new stims baby")
-	startTime = new Date()  
-	playAgainStart = new Date();
+	startTime = new Date()
+	listenerTurn = true;
+	// unlock page
 })
 
 
 $(document).ready(() => {
 
+	$("#submitNewParticipant").click(()=>{
+			socket.emit("initParticipant",$("#pID").val());
+			$("#newParticipant").toggle()
+	})
 
 	$("#send").click(()=>{
+		if(listenerTurn){
+			
+		}
 		nPlays++;
 		playAgainInterval = new Date() - playAgainStart;
 		playAgainStart = new Date();
-		playAgains.push(playAgainInterval);
+		playAgains.push(playAgainInterval);			
 
 	})
+
 
 	$("#response").click(()=>{
 		if(!recording && !sendingPhonemes){
@@ -38,7 +48,8 @@ $(document).ready(() => {
 	    	$("#txtFieldResponse").val("");
 	    	nPlays = 0;
 	    	playAgains = []
-	    	socket.emit("readyForNextPhrase");			
+	    	socket.emit("readyForNextPhrase");
+
 		}
 	})
 })

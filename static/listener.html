@@ -4,10 +4,7 @@
 	<script type="text/javascript">
 		const socket = io();
 		const listener = true;
-		let pID = prompt("Enter participant ID (leave blank to not change anything).\nIf you are a participant and accidentally refreshed the page, just leave the field below blank and click OK.", "");
-		if(pID){
-			socket.emit("initParticipant",pID);
-		}
+	
 	</script>
 	<script type="text/javascript" src="frontend_js/jquery-3.4.1.min.js"></script>
 	<script type="text/javascript" src="frontend_js/arpabet2ipa.js"></script>
@@ -21,6 +18,15 @@
 
 </head>
 <body>
+
+	<div id="newParticipant">
+		Enter participant ID (leave blank to not change anything).<br>If you are a participant and accidentally refreshed the page, just leave the field below blank and click OK.<p>
+		<input id="pID" type="text" value=""><br>
+		<div id="submitNewParticipant">Submit</div>
+	</div>
+
+	</div>
+
 	<div id="title"> Haptic Phoneme Encoder </div>
 	<br>
 	<div id="console"><span class="consoleLine"></span></div>
@@ -28,14 +34,12 @@
 	<div id="send" class="button">play</div>
 
 	<!-- lol below is just a hack to hide this button. DON'T REMOVE BECAUSE OF DEPENDENCIES I'M TOO LAZY TO RESOLVE -->
-	<div id="recordButton" style="visibility:hidden">record</div> 
+	<div id="recordButton" style="visibility:hidden">record</div>
 
 
-	<p>
 	<i style="margin-left:30px"> enter the word or phrase you felt</i><p>
 	<!-- <div style="display:block; position: relative; margin:10px;"> -->
 	<input type="text" name="responseField" id="txtFieldResponse" value="">
-	<br>
 	<div id="response" class="button">submit</div>
 
 

@@ -124,7 +124,12 @@ function playPhrase(phraseArr, idx){
 				}
 
 				updateConsole("...complete!");
-
+				
+				// ===================================================\\
+				//  the following are defined in listenerUI.js
+				// 
+				playAgainStart = new Date();
+				// ===================================================//
 
 				$("#textField").val("");
 		return;
@@ -141,7 +146,12 @@ function playWord(wordArr, idx){
 	idx++;
 	if (idx==wordArr.length) return;
 	wordArr[idx].addEventListener('ended', ()=>setTimeout(()=>{return playWord(wordArr,idx)}, timeBetweenPhonemes));
-	wordArr[idx].play();
+	try{
+		wordArr[idx].play();
+	}
+	catch(err){
+		updateConsole("error: "+err+". Try refreshing the page and clicking on an element in the page before playing")
+	}
 }
 
 
@@ -172,11 +182,13 @@ socket.on("loadPhonemes", (phonemes) => {
 
 	if(phonemes["text"]){
 		play();
+
 	}
 
 })
 
 socket.on("play",()=>{
+
 	play();
 })
 

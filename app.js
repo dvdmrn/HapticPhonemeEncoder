@@ -23,7 +23,7 @@ const tmpFilePath = "resources/temp.wav"
 
 
 
-const port = 3000
+const port = 4444
 
 // app.get('/static/', (req, res) => {
 //   res.send('WORKING!')

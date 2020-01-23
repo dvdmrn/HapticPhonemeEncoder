@@ -69,7 +69,7 @@ $(document).ready( () =>{
     	}
     })
     $('#send').click( () =>{
-    		socket.emit("newStimuli");    	
+    		socket.emit("newStimuli");  	
     })
 	$("#recordButton").click( () =>{
 		if(recording){
