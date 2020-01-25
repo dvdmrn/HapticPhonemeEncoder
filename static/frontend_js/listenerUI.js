@@ -31,7 +31,6 @@ $(document).ready(() => {
 			playAgainStart = new Date();
 			playAgains.push(playAgainInterval);
 			socket.emit("playForAll")
-						
 		}
 
 	})
@@ -39,19 +38,27 @@ $(document).ready(() => {
 
 	$("#response").click(()=>{
 		if(!recording && !sendingPhonemes && listenerTurn){
+			if($("#txtFieldComprehension").val()==""){
+				alert("enter the word or phrase you felt");
+				return
+			}
+			if($("#txtFieldReply").val()==""){
+				alert("enter a reply to your conversation partner");
+				return
+			}
 			responseTime = new Date();
 			difference = responseTime - startTime;
-			msg = $("#txtFieldResponse").val();
-			updateConsole("Recorded response! Awaiting next message...");
+			msg = $("#txtFieldComprehension").val();
+			updateConsole("Recorded response: "+msg+"! Awaiting next message...");
 	    	socket.emit("response", {"response":msg, 
 	    							 "response_time":difference,
 	    							 "n_plays":nPlays,
 	    							 "play_again_times":playAgains});
-	    	$("#txtFieldResponse").val("");
+	    	$("#txtFieldComprehension").val("");
 	    	nPlays = 0;
 	    	playAgains = []
 	    	listenerTurn = false;
-	    	socket.emit("readyForNextPhrase");
+	    	socket.emit("readyForNextPhrase", $("#txtFieldReply").val());
 		}
 	})
 })

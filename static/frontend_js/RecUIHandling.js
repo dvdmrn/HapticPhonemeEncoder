@@ -42,8 +42,8 @@ var AntiAjaxAjaxClub = (i, maxCalls, phrase, phraseArr) => {
 $(document).ready( () =>{
 	console.log("henlo")
 
-	socket.on('notifySpeaker', ()=>{
-		updateConsole("👍 response logged. Please proceed with the next phrase.");
+	socket.on('notifySpeaker', (msg)=>{
+		updateConsole("💬 Reply: <span class='reply'>"+msg+"</span>");
 		speakerTurn = true;
 	});
 

@@ -111,8 +111,7 @@ body{
 	
 }
 
-#txtFieldResponse {
-
+.txtFieldThicc{
 	display: block;
 	width: 100vw;
 	vertical-align: True;
@@ -123,8 +122,9 @@ body{
 	border-radius: 4px;
 	box-sizing: border-box;
 	font-size:inherit;
-	
 }
+
+
 
 .fltButton {
 	right:0px;
@@ -166,4 +166,11 @@ body{
 
 #pID{
 	font-size: inherit;
+}
+
+.reply{
+	color:#2d447b;
+	background-color: #CCFFEA;
+	padding:15px;
+	border-radius: 10px;
 }

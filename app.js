@@ -138,8 +138,8 @@ io.on('connection', (socket) => {
     io.emit("play");
   })
 
-  socket.on("readyForNextPhrase", ()=>{
-    io.emit("notifySpeaker");
+  socket.on("readyForNextPhrase", (msg)=>{
+    io.emit("notifySpeaker",msg);
   })
 
   socket.on("newText", (msg)=>{
