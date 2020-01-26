@@ -59,7 +59,8 @@ $(document).ready( () =>{
 
     socket.on("authError" , ()=>updateConsole("⚠️ authentication error :( Check environment variables."))
 
-    socket.on("textTranscriptionError", ()=>updateConsole("Transcription Error: I'm not sure how to transcribe your text."))
+    socket.on("textTranscriptionError", ()=>{updateConsole("Transcription Error: I'm not sure how to transcribe your text.")
+											speakerTurn=true})
 
     $("#sendTxt").click( () =>{
     	if(!recording && !sendingPhonemes && speakerTurn){

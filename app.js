@@ -91,8 +91,10 @@ io.on('connection', (socket) => {
   })
 
   socket.on("response", (msg) => {
+    console.log(msg)
     csv.writeRow([{target_phrase:_targetMsg, 
-                   response_phrase:msg["response"], 
+                   reiterated_phrase:msg["response"],
+                   reply_phrase:msg["reply"], 
                    response_time:msg["response_time"], 
                    n_playAgain:msg["n_plays"], 
                    t_playAgain:msg["play_again_times"]}])

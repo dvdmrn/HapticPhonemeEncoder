@@ -16,6 +16,10 @@ socket.on("newStimuli", ()=>{
 })
 
 
+socket.on("textTranscriptionError", ()=>{listenerTurn=false})
+socket.on("authError", ()=>{listenerTurn=false})
+
+
 $(document).ready(() => {
 
 	$("#submitNewParticipant").click(()=>{
@@ -48,17 +52,22 @@ $(document).ready(() => {
 			}
 			responseTime = new Date();
 			difference = responseTime - startTime;
-			msg = $("#txtFieldComprehension").val();
-			updateConsole("Recorded response: "+msg+"! Awaiting next message...");
-	    	socket.emit("response", {"response":msg, 
+			reiteratedMsg = $("#txtFieldComprehension").val();
+			replyMsg = $("#txtFieldReply").val()
+			updateConsole("You: <span class='orthography'>"+replyMsg+"</span>");
+	    	socket.emit("response", {"response":reiteratedMsg, 
 	    							 "response_time":difference,
 	    							 "n_plays":nPlays,
-	    							 "play_again_times":playAgains});
+	    							 "play_again_times":playAgains,
+	    							 "reply":replyMsg
+	    							});
+	    	socket.emit("readyForNextPhrase", $("#txtFieldReply").val());
 	    	$("#txtFieldComprehension").val("");
+	    	$("#txtFieldReply").val("");
 	    	nPlays = 0;
 	    	playAgains = []
 	    	listenerTurn = false;
-	    	socket.emit("readyForNextPhrase", $("#txtFieldReply").val());
+	    	updateConsole("awaiting next message...")
 		}
 	})
 })

@@ -1,6 +1,6 @@
 const { Parser } = require('json2csv');
 const fs = require('fs');
-const fields = ['target_phrase','response_phrase','response_time','n_playAgain','t_playAgain'];
+const fields = ['target_phrase','reiterated_phrase','reply_phrase','response_time','n_playAgain','t_playAgain'];
 
 
 var fileName = "out.csv";
