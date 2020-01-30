@@ -1,2 +1,5 @@
 const words = require('cmu-pronouncing-dictionary')
-console.log(words.hello)
+wrd = words["p.m."].split(" ");
+
+
+console.log(wrd.toString())

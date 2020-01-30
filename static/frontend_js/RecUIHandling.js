@@ -7,6 +7,10 @@ var updateTranscription = (transcription, word) => {
 	return transcription
 }
 
+function updatePattern() {
+	navigator.vibrate([100, 50, 500]);
+}
+
 
 var AntiAjaxAjaxClub = (i, maxCalls, phrase, phraseArr) => {
 	// this fn is to make ajax calls sequential by using recursion
@@ -44,6 +48,7 @@ $(document).ready( () =>{
 
 	socket.on('notifySpeaker', (msg)=>{
 		updateConsole("💬 Reply: <span class='reply'>"+msg+"</span>");
+		updatePattern();
 		speakerTurn = true;
 	});
 

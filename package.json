@@ -17,6 +17,7 @@
     "express": "^4.17.1",
     "express-basic-auth": "^1.2.0",
     "json2csv": "^4.5.4",
+    "number-to-words": "^1.2.4",
     "socket.io": "^2.3.0",
     "wav-file-info": "0.0.8"
   },
