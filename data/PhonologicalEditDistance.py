@@ -2,6 +2,7 @@ import helpers
 import numpy as np
 from corpustools.corpus import io
 from corpustools.symbolsim import phono_edit_distance
+import pprint as pp
 
 '''
 MUST RUN SUDO
@@ -30,12 +31,12 @@ io.binary.save_binary(ipa2hayes, "/matrix")
 
 myCorpus = io.csv.load_corpus_csv(
 	"corpusA", 
-	"corpora/corpusA.csv", 
+	"p8/P8 01-31-2020 01:40:48 PM_SPEAKER_transcriptions.csv", 
 	",")
 
 listenerCorpus = io.csv.load_corpus_csv(
 	"corpusB", 
-	"corpora/corpusB.csv", 
+	"p8/P8 01-31-2020 01:40:48 PM_LISTENER_transcriptions.csv", 
 	",")
 
 
@@ -46,15 +47,11 @@ def punishingfn(x):
 	return np.minimum(np.log((3.4*x)+1),1) # a log that approaches 1 at ~x=0.5
 
 
-print(punishingfn(0))
-print(punishingfn(0.2))
-print(punishingfn(0.5))
-print(punishingfn(1))
-print(punishingfn(2))
 
 
 for word in myCorpus.wordlist:
-	print(myCorpus.wordlist.get(word))
+	# print(word)
+	# print(myCorpus.wordlist.get(word))
 
 	phonoEditDistance = phono_edit_distance.phono_edit_distance(
 				myCorpus.wordlist.get(word),
@@ -75,7 +72,7 @@ for word in myCorpus.wordlist:
 	normalizedAccuracy = 1-punishingfn(phonoEditDistance/float(controlDistance))
 	print(myCorpus.wordlist.get(word).transcription, "vs", listenerCorpus.wordlist.get(word).transcription,"PED:",phonoEditDistance,)
 	toWrite.append({"edit_distance":phonoEditDistance,
-					"normalized_edit_distance":np.minimum(phonoEditDistance/float(controlDistance,),1),
+					"normalized_edit_distance":np.minimum(1-(phonoEditDistance/float(controlDistance)),1),
 					"accuracy":normalizedAccuracy})
 
 

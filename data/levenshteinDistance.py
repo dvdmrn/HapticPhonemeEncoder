@@ -13,7 +13,7 @@ def levenshteinDistance(s1, s2):
         distances = distances_
     return distances[-1]
 
-def normalizedAccuracy(s1,s2):
+def normalizedAccuracy(s1,s2):  
     distance = levenshteinDistance(s1,s2)
     norm = levenshteinDistance(s1,"")
     proportion = distance/float(norm)

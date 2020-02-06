@@ -5,7 +5,7 @@ import helpers
 
 epi = epitran.Epitran('eng-Latn')
 
-fileName = "dummy_data.csv" 
+fileName = "p8/P8 01-31-2020 01:40:48 PM.csv" 
 with open(fileName,"r") as csvFile:
 	reader = csv.DictReader(csvFile)
 	spelling = []
