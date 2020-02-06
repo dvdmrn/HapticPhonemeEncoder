@@ -1,10 +1,14 @@
 var recording = false;
 var processingSpeech = false;
-
+var speakerTurn = true;
 
 var updateTranscription = (transcription, word) => {
 	transcription+=word;
 	return transcription
+}
+
+function updatePattern() {
+	navigator.vibrate([100, 50, 500]);
 }
 
 
@@ -39,10 +43,14 @@ var AntiAjaxAjaxClub = (i, maxCalls, phrase, phraseArr) => {
 
 
 
-
 $(document).ready( () =>{
 	console.log("henlo")
 
+	socket.on('notifySpeaker', (msg)=>{
+		updateConsole("💬 Reply: <span class='reply'>"+msg+"</span>");
+		updatePattern();
+		speakerTurn = true;
+	});
 
     socket.on('updateConsole', function(msg){
       if (msg==""){
@@ -56,30 +64,48 @@ $(document).ready( () =>{
 
     socket.on("authError" , ()=>updateConsole("⚠️ authentication error :( Check environment variables."))
 
+    socket.on("textTranscriptionError", ()=>{updateConsole("Transcription Error: I'm not sure how to transcribe your text.")
+											speakerTurn=true})
 
+    $("#sendTxt").click( () =>{
+    	if(!recording && !sendingPhonemes && speakerTurn){
+    		msg = $("#textField").val();
+    		updateConsole("input text: "+$("#textField").val())
+    		socket.emit("newText", msg);
+    		socket.emit("newStimuli");
+    		speakerTurn = false;
+    	}
+    })
+    $('#send').click( () =>{
+    		if(speakerTurn){
+    			socket.emit("newStimuli");
+    			socket.emit("playForAll")
+    			speakerTurn = false;  	
+    		}
+    })
 	$("#recordButton").click( () =>{
-		if(recording){
-			// set to not recording
-			recording = !recording
-			$("#recordButton")[0].classList.toggle("rec")
-			$("#send")[0].classList.toggle("disabled")
-			updateConsole("recording stopped! Processing speech...")
-			processingSpeech = true;
-			stopRecording(); // in recorder-scripts.js
-		}
-		else if (!sendingPhonemes){
-			// set to recording
-			console.log("toggling rec button",$("#recordButton")[0].classList)
-			recording = !recording
-			$("#recordButton")[0].classList.toggle("rec")
-			$("#send")[0].classList.toggle("disabled")
-			updateConsole("now recording...")
-			startRecording(); // in recorder-scripts.js
+		if(speakerTurn){
+			if(recording){
+				// set to not recording
+				recording = !recording
+				$("#recordButton")[0].classList.toggle("rec")
+				$("#send")[0].classList.toggle("disabled")
+				updateConsole("recording stopped! Processing speech...")
+				processingSpeech = true;
+				stopRecording(); // in recorder-scripts.js
+			}
+			else if (!sendingPhonemes){
+				// set to recording
+				console.log("toggling rec button",$("#recordButton")[0].classList)
+				recording = !recording
+				$("#recordButton")[0].classList.toggle("rec")
+				$("#send")[0].classList.toggle("disabled")
+				updateConsole("now recording...")
+				startRecording(); // in recorder-scripts.js
 
+			}
 		}
 
 	})
 
 })
-
-
