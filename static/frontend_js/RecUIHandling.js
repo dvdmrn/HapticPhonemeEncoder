@@ -68,7 +68,7 @@ $(document).ready( () =>{
 											speakerTurn=true})
 
     $("#sendTxt").click( () =>{
-    	if(!recording && !sendingPhonemes && speakerTurn){
+    	if(!recording && !sendingPhonemes){
     		msg = $("#textField").val();
     		updateConsole("input text: "+$("#textField").val())
     		socket.emit("newText", msg);
@@ -77,33 +77,29 @@ $(document).ready( () =>{
     	}
     })
     $('#send').click( () =>{
-    		if(speakerTurn){
     			socket.emit("newStimuli");
     			socket.emit("playForAll")
     			speakerTurn = false;  	
-    		}
     })
 	$("#recordButton").click( () =>{
-		if(speakerTurn){
-			if(recording){
-				// set to not recording
-				recording = !recording
-				$("#recordButton")[0].classList.toggle("rec")
-				$("#send")[0].classList.toggle("disabled")
-				updateConsole("recording stopped! Processing speech...")
-				processingSpeech = true;
-				stopRecording(); // in recorder-scripts.js
-			}
-			else if (!sendingPhonemes){
-				// set to recording
-				console.log("toggling rec button",$("#recordButton")[0].classList)
-				recording = !recording
-				$("#recordButton")[0].classList.toggle("rec")
-				$("#send")[0].classList.toggle("disabled")
-				updateConsole("now recording...")
-				startRecording(); // in recorder-scripts.js
+		if(recording){
+			// set to not recording
+			recording = !recording
+			$("#recordButton")[0].classList.toggle("rec")
+			$("#send")[0].classList.toggle("disabled")
+			updateConsole("recording stopped! Processing speech...")
+			processingSpeech = true;
+			stopRecording(); // in recorder-scripts.js
+		}
+		else if (!sendingPhonemes){
+			// set to recording
+			console.log("toggling rec button",$("#recordButton")[0].classList)
+			recording = !recording
+			$("#recordButton")[0].classList.toggle("rec")
+			$("#send")[0].classList.toggle("disabled")
+			updateConsole("now recording...")
+			startRecording(); // in recorder-scripts.js
 
-			}
 		}
 
 	})
