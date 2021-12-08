@@ -1,12 +1,12 @@
 const express = require('express')
 const app = express()
-const basicAuth = require('express-basic-auth')
+// const basicAuth = require('express-basic-auth')
 const converter = require('number-to-words');
 
-app.use(basicAuth({
-    users: { srl: 'eurohaptics' },
-    challenge: true // <--- needed to actually show the login dialog!
-}));
+// app.use(basicAuth({
+//     users: { srl: 'eurohaptics' },
+//     challenge: true // <--- needed to actually show the login dialog!
+// }));
 
 const https = require('https')
 const fs = require('fs')
@@ -24,7 +24,7 @@ const tmpFilePath = "resources/temp.wav"
 
 
 
-const port = 4444
+const port = process.env.PORT || 8000
 
 // app.get('/static/', (req, res) => {
 //   res.send('WORKING!')

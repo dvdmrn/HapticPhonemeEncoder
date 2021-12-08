@@ -7,3 +7,4 @@ credentials.json
 temp.wav
 *.csv
 *.ods
+data/*
